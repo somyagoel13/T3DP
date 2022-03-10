@@ -307,9 +307,7 @@ def run_hmar(video_path):
             
 import requests            
 if __name__ == '__main__':
-
-   list_ = ['MWjtAH45A8c']
-   #list_ = ['1']
+    list_ = ['MWjtAH45A8c']  
     
     for i, YOUTUBE_ID in enumerate(list_):
         video_folder   = "video_"+ str(i) +"/"
@@ -363,6 +361,7 @@ if __name__ == '__main__':
         destination = dataset_path + video_folder +"youtube.mp4"
         download_file_from_google_drive(file_id, destination)
         #video='https://drive.google.com/file/d/1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G/view?usp=sharing'"""
+        
         video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
         video_name='youtube.mp4'
         fe = FrameExtractor(dataset_path + video_folder)
