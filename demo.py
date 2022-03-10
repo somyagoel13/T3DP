@@ -71,7 +71,8 @@ class FrameExtractor():
     def extract_frames(self, every_x_frame, img_name, dest_path=None, img_ext = '.jpg', frames=[200,300]):
         if not self.vid_cap.isOpened():
             self.vid_cap = cv2.VideoCapture(self.video_path)
-        
+        else:
+            print("vid cap error")
         if dest_path is None:
             dest_path = os.getcwd()
         else:
@@ -79,8 +80,10 @@ class FrameExtractor():
                 os.mkdir(dest_path); print(f'Created the following directory: {dest_path}')
         
         frame_cnt = 0; img_cnt = 0
+        print("self.vid_cap.isOpened() : ",self.vid_cap.isOpened())
         while self.vid_cap.isOpened():
             success,image = self.vid_cap.read() 
+            print("success :",success)
             if not success: break
             if frame_cnt % every_x_frame == 0 and (frame_cnt<frames[1] and frame_cnt>frames[0]):
                 img_path = os.path.join(dest_path, ''.join([img_name,  '%06d' % (img_cnt+1), img_ext]))
@@ -360,7 +363,7 @@ if __name__ == '__main__':
         download_file_from_google_drive(file_id, destination)
         #video='https://drive.google.com/file/d/1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G/view?usp=sharing'
         #video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
-        video_name='youtube.mp4'
+        #video_name='youtube.mp4'
         fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
         print(fe.n_frames)
         print(fe.get_video_duration())
