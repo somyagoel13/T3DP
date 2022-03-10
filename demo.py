@@ -9,7 +9,7 @@ import numpy as np
 import os, json, cv2, random
 # from google.colab.patches import cv2_imshow
 import glob
-
+import requests 
 # import some common detectron2 utilities
 from detectron2 import model_zoo
 from detectron2.engine import DefaultPredictor
@@ -301,10 +301,37 @@ def run_hmar(video_path):
                  
     return time_  
             
-import requests 
+def download_file_from_google_drive(id, destination):
+    URL = "https://docs.google.com/uc?export=download"
+
+    session = requests.Session()
+
+    response = session.get(URL, params = { 'id' : id }, stream = True)
+    token = get_confirm_token(response)
+
+    if token:
+        params = { 'id' : id, 'confirm' : token }
+        response = session.get(URL, params = params, stream = True)
+
+    save_response_content(response, destination)    
+
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            return value
+    return None
+def save_response_content(response, destination):
+    CHUNK_SIZE = 32768
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
+                
 if __name__ == '__main__':
 
-    list_ = ['T8Zj1oLGaQE']
+    list_ = ['VqykoYaN2dI']
     
     for i, YOUTUBE_ID in enumerate(list_):
         video_folder   = "video_"+ str(i) +"/"
@@ -387,34 +414,7 @@ if __name__ == '__main__':
         #taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
         
         
-        def download_file_from_google_drive(id, destination):
-            URL = "https://docs.google.com/uc?export=download"
-
-            session = requests.Session()
-
-            response = session.get(URL, params = { 'id' : id }, stream = True)
-            token = get_confirm_token(response)
-
-            if token:
-                params = { 'id' : id, 'confirm' : token }
-                response = session.get(URL, params = params, stream = True)
-
-            save_response_content(response, destination)    
-
-        def get_confirm_token(response):
-            for key, value in response.cookies.items():
-                if key.startswith('download_warning'):
-                    return value
-
-            return None
-
-        def save_response_content(response, destination):
-            CHUNK_SIZE = 32768
-
-            with open(destination, "wb") as f:
-                for chunk in response.iter_content(CHUNK_SIZE):
-                    if chunk: # filter out keep-alive new chunks
-                        f.write(chunk)
+        
         
         file_id = '1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G'
         destination = dataset_path + video_folder +"youtube.mp4"
