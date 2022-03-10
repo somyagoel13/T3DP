@@ -239,7 +239,7 @@ def run_hmar(video_path):
             frame_path                    = video_data['imgname'][int(frame_ids[0])] 
             frame_name                    = frame_path.split("/")[-1]
             video_name                    = frame_path.split("/")[-2] 
-            
+            print("video name: ",video_name)
             image                         = cv2.imread(base_path + "/" + frame_name)
             img_height, img_width, _      = image.shape
             new_image_size                = max(img_height, img_width)
