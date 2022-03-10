@@ -85,7 +85,7 @@ class FrameExtractor():
             if frame_cnt % every_x_frame == 0 and (frame_cnt<frames[1] and frame_cnt>frames[0]):
                 img_path = os.path.join(dest_path, ''.join([img_name,  '%06d' % (img_cnt+1), img_ext]))
                 cv2.imwrite(img_path, image)  
-                print("extract frame path img "img_path)
+                print("extract frame path img ",img_path)
                 img_cnt += 1
             frame_cnt += 1
             if(frame_cnt>frames[1]): break
