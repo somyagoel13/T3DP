@@ -342,14 +342,22 @@ if __name__ == '__main__':
         os.system("mkdir _DATA/DEMO/"+video_folder)
         os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
 
-        video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
-        print('Summary:')
-        print(f'Title: {video.title}')
-        print(f'Duration: {video.length / 60:.2f} minutes')
-        print(f'# of views: {video.views}')
-        print(video.streams.all())
-        video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
-        fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+        #video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
+        #print('Summary:')
+        #print(f'Title: {video.title}')
+        #print(f'Duration: {video.length / 60:.2f} minutes')
+        #print(f'# of views: {video.views}')
+        #print(video.streams.all())
+        #video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
+        #fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+        # put fe intialization after this 
+        
+        # fullname='https://drive.google.com/file/d/1sApuekENPm2nMsKbETFKnI5fpPtn7eOR/view?usp=sharing'
+        file_id = '1sApuekENPm2nMsKbETFKnI5fpPtn7eOR'
+        destination = dataset_path + video_folder +"youtube.mp4"
+        download_file_from_google_drive(file_id, destination)
+        
+        fe = FrameExtractor(destination)
         print(fe.n_frames)
         print(fe.get_video_duration())
         fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,400])
