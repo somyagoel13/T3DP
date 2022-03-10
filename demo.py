@@ -356,8 +356,8 @@ if __name__ == '__main__':
         file_id = '1sApuekENPm2nMsKbETFKnI5fpPtn7eOR'
         destination = dataset_path + video_folder +"youtube.mp4"
         download_file_from_google_drive(file_id, destination)
-        
-        fe = FrameExtractor(destination)
+        video='https://drive.google.com/file/d/1sApuekENPm2nMsKbETFKnI5fpPtn7eOR/view?usp=sharing'
+        fe = FrameExtractor(video)
         print(fe.n_frames)
         print(fe.get_video_duration())
         fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,400])
