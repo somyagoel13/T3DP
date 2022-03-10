@@ -301,7 +301,70 @@ def run_hmar(video_path):
                  
     return time_  
             
-import requests            
+import requests 
+if __name__ == '__main__':
+
+    list_ = ['h9ALWwF4it0']
+    
+    for i, YOUTUBE_ID in enumerate(list_):
+        video_folder   = "video_"+ str(i) +"/"
+        dataset_path   = "_DATA/DEMO/" 
+
+        os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
+        os.system("mkdir _DATA/DEMO/")
+        os.system("mkdir _DATA/DEMO/"+video_folder)
+        os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
+
+        video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
+        print('Summary:')
+        print(f'Title: {video.title}')
+        print(f'Duration: {video.length / 60:.2f} minutes')
+        print(f'# of views: {video.views}')
+        print(video.streams.all())
+        video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
+        fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+        print(fe.n_frames)
+        print(fe.get_video_duration())
+        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,400])
+
+
+        run_detection(dataset_path + video_folder)
+        run_hmar(dataset_path + video_folder)
+
+
+        parser = argparse.ArgumentParser(description='T3PO Tracker')
+        parser.add_argument('--dataset', type=str, default='val')
+
+        opt                = parser.parse_args()
+        opt.storage_folder = "Videos_Final_DEMO"    
+        opt.dataset        = "demo"
+        opt.dataset_path   = "_DATA/DEMO/"
+        opt.th_x           = 20000000
+        opt.past_x         = 100
+        opt.max_age_x      = 100
+        opt.n_init_x       = 5
+        opt.max_ids_x      = 10
+        opt.window_x       = 20
+        opt.metric_x       = "euclidean_min"
+        opt.render         = True
+        opt.save           = True
+        opt.downsample     = 1
+        opt.videos_seq     = ["video_"+ str(i)]
+
+
+        hmar_tracker       = HMAR_tracker(mode="APK", betas=[1.0,1.0,1.0])
+        path_model         = os.path.join('_DATA/t3dp_transformer.pth')      
+
+        prev_best          = torch.load(path_model)
+        print("loading from ", prev_best['epoch'])
+        hmar_tracker.load_state_dict(prev_best['model'], strict=True)    
+
+        hmar_tracker.cuda()
+        hmar_tracker.eval()
+
+        test_tracker(opt, hmar_tracker)
+
+"""
 if __name__ == '__main__':
     list_ = ['Szb_0_HVu_k'] #'MWjtAH45A8c']  
     
@@ -323,7 +386,7 @@ if __name__ == '__main__':
         
         #taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
         
-        """
+        
         def download_file_from_google_drive(id, destination):
             URL = "https://docs.google.com/uc?export=download"
 
@@ -356,7 +419,7 @@ if __name__ == '__main__':
         file_id = '1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G'
         destination = dataset_path + video_folder +"youtube.mp4"
         download_file_from_google_drive(file_id, destination)
-        #video='https://drive.google.com/file/d/1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G/view?usp=sharing'"""
+        #video='https://drive.google.com/file/d/1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G/view?usp=sharing'
         
         video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
         video_name='youtube.mp4'
@@ -401,7 +464,7 @@ if __name__ == '__main__':
         hmar_tracker.cuda()
         hmar_tracker.eval()
 
-        test_tracker(opt, hmar_tracker)
+        test_tracker(opt, hmar_tracker)""""
 
 
         
