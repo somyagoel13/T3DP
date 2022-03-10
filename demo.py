@@ -464,7 +464,7 @@ if __name__ == '__main__':
         hmar_tracker.cuda()
         hmar_tracker.eval()
 
-        test_tracker(opt, hmar_tracker)""""
+        test_tracker(opt, hmar_tracker)"""
 
 
         
