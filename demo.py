@@ -319,15 +319,15 @@ if __name__ == '__main__':
         os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
 
         video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
-        #print('Summary:')
-        #print(f'Title: {video.title}')
-        #print(f'Duration: {video.length / 60:.2f} minutes')
-        #print(f'# of views: {video.views}')
-        #print(video.streams.all())
+        print('Summary:')
+        print(f'Title: {video.title}')
+        print(f'Duration: {video.length / 60:.2f} minutes')
+        print(f'# of views: {video.views}')
+        print(video.streams.all())
         
         #taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
         
-
+        """
         def download_file_from_google_drive(id, destination):
             URL = "https://docs.google.com/uc?export=download"
 
@@ -356,7 +356,7 @@ if __name__ == '__main__':
                 for chunk in response.iter_content(CHUNK_SIZE):
                     if chunk: # filter out keep-alive new chunks
                         f.write(chunk)
-        """
+        
         file_id = '1W2-4Itl4nJvG4PSl0ZYhPJZv3MSz550G'
         destination = dataset_path + video_folder +"youtube.mp4"
         download_file_from_google_drive(file_id, destination)
