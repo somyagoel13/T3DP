@@ -364,7 +364,7 @@ if __name__ == '__main__':
         fe = FrameExtractor('/content/drive/MyDrive/test_output.mp4')
         print(fe.n_frames)
         print(fe.get_video_duration())
-        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,500])
+        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[200,500])
 
 
         run_detection(dataset_path + video_folder)
