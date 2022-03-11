@@ -353,17 +353,18 @@ if __name__ == '__main__':
         # put fe intialization after this 
         
         # fullname='https://drive.google.com/file/d/1sApuekENPm2nMsKbETFKnI5fpPtn7eOR/view?usp=sharing'
-        file_id = '1sApuekENPm2nMsKbETFKnI5fpPtn7eOR'
-        destination = dataset_path + video_folder +"youtube.mp4"
-        download_file_from_google_drive(file_id, destination)
-        video=YouTube(destination)
+        #file_id = '1sApuekENPm2nMsKbETFKnI5fpPtn7eOR'
+        #destination = dataset_path + video_folder +"youtube.mp4"
+        #download_file_from_google_drive(file_id, destination)
+        #video=YouTube(destination)
         print(f'Duration: {video.length / 60:.2f} minutes')
         #print(f'# of views: {video.views}')
-        print(video.streams.all())
-        fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+        #print(video.streams.all())
+        #fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+        fe = FrameExtractor('/content/drive/MyDrive/test_output.mp4')
         print(fe.n_frames)
         print(fe.get_video_duration())
-        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,400])
+        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,500])
 
 
         run_detection(dataset_path + video_folder)
